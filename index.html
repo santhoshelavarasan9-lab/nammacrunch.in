@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namma Crunch - Premium Online Store</title>
+    <style>
+        :root { --primary: #ff9900; --dark: #333; --light: #fffaf0; }
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; background: var(--light); overflow-x: hidden; }
+        
+        /* 1. Animation Slider */
+        .slider { width: 100%; height: 400px; position: relative; overflow: hidden; }
+        .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: 1s; display: flex; align-items: center; justify-content: center; color: white; text-align: center; background-size: cover; background-position: center; }
+        .slide.active { opacity: 1; }
+        .slide-content { background: rgba(0,0,0,0.5); padding: 20px; border-radius: 10px; }
+
+        /* 2. Product Grid */
+        .container { padding: 40px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 15px; padding: 15px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); }
+        .card img { width: 100%; border-radius: 10px; height: 180px; object-fit: cover; }
+
+        /* 3. Modal (Product Details Page) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; position: relative; text-align: center; }
+        .close-btn { position: absolute; top: 10px; right: 20px; font-size: 30px; cursor: pointer; }
+
+        /* 4. Reviews */
+        .reviews { background: #fdf2e9; padding: 40px 20px; margin-top: 30px; }
+        .review-card { display: inline-block; width: 250px; background: white; padding: 20px; margin: 10px; border-radius: 10px; border-left: 5px solid var(--primary); }
+
+        .btn { background: var(--primary); color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; margin-top: 10px; }
+        .whatsapp-btn { background: #25D366; }
+    </style>
+</head>
+<body>
+
+    <div class="slider">
+        <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1505253149613-112d21d9f6a9?auto=format&fit=crop&w=1200&q=80')">
+            <div class="slide-content"><h1>Freshly Made Sweets</h1><p>Delicious Home Taste</p></div>
+        </div>
+        <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1626132647523-66f5bf380027?auto=format&fit=crop&w=1200&q=80')">
+            <div class="slide-content"><h1>Crispy Murukku Varieties</h1><p>Best Evening Snacks</p></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Our Snacks (Click to View)</h2>
+        <div class="product-grid">
+            <div class="card" onclick="openProduct('Butter Murukku', 'Made with pure butter and rice flour. Very crispy!', '₹120')">
+                <img src="https://images.unsplash.com/photo-1626132647523-66f5bf380027?w=400" alt="Murukku">
+                <h3>Butter Murukku</h3>
+                <p>₹120 / 250g</p>
+            </div>
+            <div class="card" onclick="openProduct('Special Laddu', 'Organic jaggery and pure ghee laddu.', '₹150')">
+                <img src="https://images.unsplash.com/photo-1505253149613-112d21d9f6a9?w=400" alt="Laddu">
+                <h3>Special Laddu</h3>
+                <p>₹150 / 250g</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="reviews">
+        <h2>Customer Reviews ⭐</h2>
+        <div class="review-card">"Murukku semma crisp-ah iruku!"<br><b>- Ramesh, Salem</b></div>
+        <div class="review-card">"Home taste. Prompt delivery."<br><b>- Priya, Chennai</b></div>
+    </div>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeProduct()">&times;</span>
+            <h2 id="p-title"></h2>
+            <p id="p-desc"></p>
+            <h3 id="p-price"></h3>
+            <a id="p-link" href="#" class="btn whatsapp-btn">Confirm Order on WhatsApp</a>
+            <br><br>
+            <a href="upi://pay?pa=9751828936@upi&pn=NammaCrunch&cu=INR" class="btn" style="background: #673ab7;">Pay Now (UPI)</a>
+        </div>
+    </div>
+
+    <script>
+        // Slider Logic
+        let slides = document.querySelectorAll('.slide');
+        let current = 0;
+        setInterval(() => {
+            slides[current].classList.remove('active');
+            current = (current + 1) % slides.length;
+            slides[current].classList.add('active');
+        }, 3000);
+
+        // Product Modal Logic
+        function openProduct(title, desc, price) {
+            document.getElementById('p-title').innerText = title;
+            document.getElementById('p-desc').innerText = desc;
+            document.getElementById('p-price').innerText = "Price: " + price;
+            document.getElementById('p-link').href = "https://wa.me/919751828936?text=I want to buy " + title;
+            document.getElementById('productModal').style.display = 'flex';
+        }
+
+        function closeProduct() {
+            document.getElementById('productModal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
+<style>
+    /* About Section */
+    .about-section {
+        padding: 60px 20px;
+        background-color: white;
+        text-align: center;
+        border-top: 5px solid #ff9900;
+    }
+    .about-container { max-width: 800px; margin: 0 auto; }
+    .about-section h2 { color: #ff9900; margin-bottom: 20px; }
+    .about-section p { line-height: 1.8; color: #555; font-size: 1.1rem; }
+
+    /* Social Media & Footer */
+    footer {
+        background-color: #333;
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+    }
+    .social-links { margin-bottom: 20px; }
+    .social-links a {
+        color: white;
+        text-decoration: none;
+        margin: 0 15px;
+        font-size: 1.5rem;
+        transition: 0.3s;
+    }
+    .social-links a:hover { color: #ff9900; }
+    
+    .footer-info p { margin: 5px 0; color: #bbb; }
+    .insta-icon:before { content: "📸 "; }
+    .fb-icon:before { content: "👥 "; }
+    .yt-icon:before { content: "🎥 "; }
+</style>
+
+<section class="about-section">
+    <div class="about-container">
+        <h2>About Namma Crunch</h2>
+        <p>
+            Salem-la irundhu ungalukku kaivanthu homemade snacks! Namma veettu muraippadi, 
+            endha vidha chemicals-um illama, pure ghee matrum fresh ingredients use panni 
+            namma snacks-ah thayarikkurom. Tradition-um taste-um thaan namma identity!
+        </p>
+    </div>
+</section>
+
+<footer>
+    <div class="social-links">
+        <h3>Follow Us</h3>
+        <a href="#" class="insta-icon">Instagram</a>
+        <a href="#" class="fb-icon">Facebook</a>
+        <a href="#" class="yt-icon">YouTube</a>
+    </div>
+
+    <div class="footer-info">
+        <p><b>Contact:</b> +91 9751828936</p>
+        <p><b>Location:</b> Salem, Tamil Nadu</p>
+        <p><b>Delivery:</b> All over India 🚚</p>
+        <hr style="width: 50%; border: 0.5px solid #555; margin: 20px auto;">
+        <p>&copy; 2026 Namma Crunch. All rights reserved.</p>
+    </div>
+</footer>
